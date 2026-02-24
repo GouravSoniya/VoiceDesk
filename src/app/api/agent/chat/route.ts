@@ -83,13 +83,7 @@ ${agent.table_instructions ? `Instructions for data table: ${agent.table_instruc
 
 ${tableContext}
 
-You can use the following tools to interact with the data table:
-- insert_row(data: Record<string, string>)
-- update_cell(rowIndex: number, columnKey: string, newValue: string)
-- delete_row(rowIndex: number)
-- read_table() -> returns current state
-
-ONLY use tools when necessary based on user requests. Formulate concise and helpful responses.
+ONLY use the provided tools when necessary based on user requests to manage the data table. Formulate concise and helpful responses.
 `
 
         const messages: any[] = [
@@ -160,7 +154,7 @@ ONLY use tools when necessary based on user requests. Formulate concise and help
 
         // 6. First Groq Call
         const completion = await groq.chat.completions.create({
-            model: "llama-3.1-8b-instant",
+            model: "llama-3.3-70b-versatile",
             messages,
             tools: tools as any, // Cast needed depending on SDK version types
             tool_choice: "auto"
@@ -262,7 +256,7 @@ ONLY use tools when necessary based on user requests. Formulate concise and help
 
             // 8. Second Groq Call with tool results
             const secondCompletion = await groq.chat.completions.create({
-                model: "llama-3.1-8b-instant",
+                model: "llama-3.3-70b-versatile",
                 messages
             })
 
