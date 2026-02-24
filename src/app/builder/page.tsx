@@ -2,7 +2,7 @@
 
 export const dynamic = 'force-dynamic'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
 import { ArrowLeft, ArrowRight, Check, Loader2, PlusCircle, Trash2 } from 'lucide-react'
@@ -20,6 +20,18 @@ const SARVAM_VOICES = [
 ]
 
 export default function AgentBuilder() {
+    return (
+        <Suspense fallback={
+            <div className="flex-1 flex items-center justify-center bg-black text-white min-h-[100dvh]">
+                <Loader2 className="animate-spin h-12 w-12 text-zinc-500" />
+            </div>
+        }>
+            <AgentBuilderContent />
+        </Suspense>
+    )
+}
+
+function AgentBuilderContent() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const agentId = searchParams.get('agentId')

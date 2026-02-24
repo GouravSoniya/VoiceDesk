@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -60,7 +61,9 @@ export default async function Dashboard() {
                         <p className="text-red-500 text-sm">Error loading agents: {error.message}</p>
                     </div>
                 ) : (
-                    <AgentList initialAgents={agents || []} />
+                    <Suspense fallback={<div className="text-zinc-500">Loading agents...</div>}>
+                        <AgentList initialAgents={agents || []} />
+                    </Suspense>
                 )}
             </div>
         </div>
